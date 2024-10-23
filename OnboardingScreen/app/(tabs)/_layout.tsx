@@ -10,9 +10,36 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs>
-      <Tabs.Screen name="(home)" />
-      <Tabs.Screen name="explore" />
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        headerShown: false,
+      }}
+    >
+      <Tabs.Screen
+        name="(home)"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "home" : "home-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: "Explore",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "code-slash" : "code-slash-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
