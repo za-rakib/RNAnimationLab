@@ -1,36 +1,18 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Tabs } from "expo-router";
+import React from "react";
+
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}>
-      <Tabs.Screen
-        name="(home)"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="shield" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: "Settings",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="cog" color={color} />
-          ),
-        }}
-      />
+    <Tabs>
+      <Tabs.Screen name="(home)" />
+      <Tabs.Screen name="explore" />
     </Tabs>
   );
 }
