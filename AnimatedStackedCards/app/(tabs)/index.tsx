@@ -3,11 +3,55 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import Animated, {
   interpolate,
+  SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
 
+type props = {
+  index: number;
+  progress: SharedValue<number>;
+};
+
+const Card = ({ index, progress }: props) => {
+  const rStyle = useAnimatedStyle(() => {
+    const translateX = interpolate(progress.value, [0, 1], [0, index * 20]);
+    const translateY = interpolate(progress.value, [0, 1], [0, index * -5]);
+    const rotate = interpolate(progress.value, [0, 1], [-index * 8, index * 8]);
+    return {
+      transform: [
+        {
+          translateX: translateX, //progress.value * index * 20, //index * 20,
+        },
+        {
+          translateY: translateY, // progress.value * index * -5, // index * -5,
+        },
+        {
+          rotate: `${rotate}deg`, //`${ index * 8}deg`
+        },
+      ],
+    };
+  });
+
+  return (
+    <Animated.View
+      key={index}
+      style={[
+        styles.card,
+        rStyle,
+        {
+          zIndex: -index,
+          // transform: [
+          //   {
+          //     rotate: `${index * - 10}deg`,
+          //   },
+          // ],
+        },
+      ]}
+    ></Animated.View>
+  );
+};
 const index = () => {
   const progress = useSharedValue(0);
 
@@ -15,7 +59,7 @@ const index = () => {
     <View
       style={styles.container}
       onTouchStart={() => {
-        progress.value = withSpring(1, { mass: 2 });
+        progress.value = withSpring(1,  );
       }}
       onTouchEnd={() => {
         progress.value = withSpring(0);
@@ -24,52 +68,23 @@ const index = () => {
       <StatusBar style="auto" />
 
       {new Array(4).fill(null).map((_, index) => {
-        const rStyle = useAnimatedStyle(() => {
-          const translateX = interpolate(
-            progress.value,
-            [0, 1],
-            [0, index * 20]
-          );
-          const translateY = interpolate(
-            progress.value,
-            [0, 1],
-            [0, index * -5]
-          );
-          const rotate = interpolate(
-            progress.value,
-            [0, 1],
-            [-index * 8, index * 8]
-          );
-          return {
-            transform: [
-              {
-                translateX: translateX, //progress.value * index * 20, //index * 20,
-              },
-              {
-                translateY: translateY, // progress.value * index * -5, // index * -5,
-              },
-              {
-                rotate: `${rotate}deg`, //`${ index * 8}deg`
-              },
-            ],
-          };
-        });
         return (
-          <Animated.View
-            key={index}
-            style={[
-              styles.card,
-              rStyle,
-              {
-                zIndex: -index,
-                // transform: [
-                //   {
-                //     rotate: `${index * - 10}deg`,
-                //   },
-                // ],
-              },
-            ]}
-          ></Animated.View>
+          <Card key={index} index={index} progress={progress} />
+          // <Animated.View
+          //   key={index}
+          //   style={[
+          //     styles.card,
+          //     rStyle,
+          //     {
+          //       zIndex: -index,
+          //       // transform: [
+          //       //   {
+          //       //     rotate: `${index * - 10}deg`,
+          //       //   },
+          //       // ],
+          //     },
+          //   ]}
+          // ></Animated.View>
         );
       })}
     </View>
