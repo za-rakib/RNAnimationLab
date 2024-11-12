@@ -56,7 +56,7 @@ const CardStack = () => {
       onTouchEnd={handleTouchEnd}
     >
       <StatusBar style="auto" />
-      {[...Array(4)].map((_, index) => (
+      {[...Array(5)].map((_, index) => (
         <Card key={index} index={index} progress={progress} />
       ))}
     </View>
@@ -68,7 +68,7 @@ export default CardStack;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e3e3e3",
+    backgroundColor: "#0a7ea4",
     justifyContent: "center",
     alignItems: "center",
   },

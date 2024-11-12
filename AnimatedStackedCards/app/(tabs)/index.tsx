@@ -50,7 +50,7 @@ const index = () => {
   const progress = useSharedValue(0);
 
   const handleTouchStart = () => {
-    progress.value = withSpring(1, { damping: 15, stiffness: 100 });
+    progress.value = withSpring(1, { damping: 15, stiffness: 90 });
   };
 
   const handleTouchEnd = () => {
@@ -64,7 +64,7 @@ const index = () => {
       onTouchEnd={handleTouchEnd}
     >
       <StatusBar style="auto" />
-      {[...Array(24)].map((_, index) => (
+      {[...Array(20)].map((_, index) => (
         <Card key={index} index={index} progress={progress} />
       ))}
     </View>
@@ -76,7 +76,7 @@ export default index;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e3e3e3",
+    backgroundColor: "#0a7ea4",
     alignItems: "center",
   },
   card: {
