@@ -14,39 +14,31 @@ type CardProps = {
   progress: SharedValue<number>;
 };
 
-const gradients = [
-  ["#fd5a5a", "#FFD93D"],
-  ["#6BCB77", "#4D96FF"],
-  ["#FF8E72", "#FF3CAC"],
-  ["#8E54E9", "#4776E6"],
-  ["#00C9FF", "#92FE9D"],
-];
+const colors = ["#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF"];
 
 const Card = ({ index, progress }: CardProps) => {
   const rStyle = useAnimatedStyle(() => {
-    const translateY = interpolate(progress.value, [0, 1], [0, index * -25]);
-    const rotate = interpolate(progress.value, [0, 1], [-index * 8, 0]);
+    const translateX = interpolate(progress.value, [0, 1], [0, index * 20]);
+    const translateY = interpolate(progress.value, [0, 1], [0, index * -5]);
+    const rotate = interpolate(progress.value, [0, 1], [-index * 8, index * 8]);
 
     return {
-      transform: [{ translateY }, { rotate: `${rotate}deg` }],
+      transform: [{ translateX }, { translateY }, { rotate: `${rotate}deg` }],
     };
   });
 
   return (
-    <Animated.View style={[styles.card, rStyle, { zIndex: -index }]}>
-      <View
-        style={[
-          styles.cardOverlay,
-          {
-            backgroundColor: gradients[index % gradients.length][0],
-          },
-        ]}
-      />
-    </Animated.View>
+    <Animated.View
+      style={[
+        styles.card,
+        rStyle,
+        { backgroundColor: colors[index % colors.length], zIndex: -index },
+      ]}
+    />
   );
 };
 
-const index = () => {
+const CardStack = () => {
   const progress = useSharedValue(0);
 
   const handleTouchStart = () => {
@@ -64,42 +56,33 @@ const index = () => {
       onTouchEnd={handleTouchEnd}
     >
       <StatusBar style="auto" />
-      {[...Array(24)].map((_, index) => (
+      {[...Array(4)].map((_, index) => (
         <Card key={index} index={index} progress={progress} />
       ))}
     </View>
   );
 };
 
-export default index;
+export default CardStack;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#e3e3e3",
+    justifyContent: "center",
     alignItems: "center",
   },
   card: {
     height: 180,
     aspectRatio: 3 / 4,
-    borderRadius: 20,
-    overflow: "hidden",
-    shadowColor: "#000",
-    shadowOpacity: 0.35,
-    shadowOffset: { width: 0, height: 10 },
+    borderRadius: 25,
+    shadowColor: "black",
+    shadowOpacity: 0.3,
+    shadowOffset: { width: 0, height: 6 },
     shadowRadius: 10,
-    elevation: 8,
-    borderWidth: 0.5,
-    borderColor: "rgba(0, 0, 0, 0.1)",
-    position: "absolute",
-    bottom: 0,
-    marginBottom: 30,
-  },
-  cardOverlay: {
-    flex: 1,
-    borderRadius: 20,
-    opacity: 0.9,
-    borderColor: "#ffffff",
+    elevation: 6,
     borderWidth: 1,
+    borderColor: "#b9b9b9",
+    position: "absolute",
   },
 });
